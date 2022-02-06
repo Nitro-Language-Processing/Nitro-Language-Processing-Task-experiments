@@ -1,3 +1,4 @@
-ronec
 data
 .idea
+src/lucian/*.npy
+src/common/__pycache__/
