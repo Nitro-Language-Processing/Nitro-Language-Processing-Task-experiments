@@ -19,6 +19,7 @@ Experiments List:
 - tfidfvectorizer vectorization as feature extraction with any classifier over - Lucian - 0.61
 - stringkernels transformation as feature extraction with any classifier over - Lucian - ?
 - linguistical features as feature extraction with any classifier over - unassigned - ?
+- Automated Concatenation of Embeddings for Structured Prediction - https://arxiv.org/pdf/2010.05006.pdf - tonio - ?
 
 
 *NOTE: for the experiments that mention 'any classifier over' please specify the used classifier*
