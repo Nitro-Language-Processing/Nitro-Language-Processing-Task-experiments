@@ -2,7 +2,7 @@ import json
 
 tag_to_id = dict()
 
-def get_data(filepath, change_ner_tags=False):
+def get_data(filepath, change_ner_tags=False, change_ner_ids=False):
     """
     returns a list of dictionaries
     each dictionary has the keys:
@@ -43,11 +43,20 @@ def get_data(filepath, change_ner_tags=False):
 
         if change_ner_tags:
             new_ner_tags = []
-            for (ner_tag, ner_id) in zip(ner_tags, ner_ids):
+            for ner_tag in ner_tags:
                 if ner_tag != "O":
                     ner_tag = ner_tag[ner_tag.find("-") + 1:]
                 new_ner_tags.append(ner_tag)
             data[i]["ner_tags"] = new_ner_tags
+
+        if change_ner_ids:
+            new_ner_ids = []
+            for ner_id in ner_ids:
+                if ner_id % 2 == 1:
+                    ner_id -= 1
+                new_ner_ids.append(ner_id)
+            data[i]["ner_ids"] = new_ner_ids
+
 
         data[i]["reconstructed_document"] = document
         data[i]["start_char"] = start_chars
@@ -55,13 +64,13 @@ def get_data(filepath, change_ner_tags=False):
 
     return data, tag_to_id
 
-def get_all_data(change_ner_tags=False):
+def get_all_data(change_ner_tags=False, change_ner_ids=False):
     global tag_to_id
     data = dict()
     filepaths = ["ronec/data/train.json", "ronec/data/valid.json", "ronec/data/test.json"]
     dataset_types = ["train", "valid", "test"]
     for filepath, dataset_type in zip(filepaths, dataset_types):
-        data[dataset_type], tag_to_id = get_data(filepath, change_ner_tags)
+        data[dataset_type], tag_to_id = get_data(filepath=filepath, change_ner_tags=change_ner_tags, change_ner_ids=change_ner_ids)
 
     return data, tag_to_id
 
