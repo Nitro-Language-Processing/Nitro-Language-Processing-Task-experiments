@@ -15,9 +15,9 @@ Experiments List:
 - fasttext embeddings as feature extraction with any classifier over - unassigned - ?
 - word2vec embeddings as feature extraction with any classifier over - unassigned - ?
 - glove embeddings as feature extraction with any classifier over - unassigned - ?
-- countvectorizer vectorization as feature extraction with any classifier over - unassigned - ?
-- tfidfvectorizer vectorization as feature extraction with any classifier over - unassigned - ?
-- stringkernels transformation as feature extraction with any classifier over - unassigned - ?
+- countvectorizer vectorization as feature extraction with any classifier over - Lucian - ?
+- tfidfvectorizer vectorization as feature extraction with any classifier over - Lucian - ?
+- stringkernels transformation as feature extraction with any classifier over - Lucian - ?
 - linguistical features as feature extraction with any classifier over - unassigned - ?
 
 
