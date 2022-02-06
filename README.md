@@ -3,6 +3,7 @@ This repository will contain a couple of experiments &amp; benchmarks performed 
 
 Experiments List:
 
+- current state-of-the-art: Romanian BERT Baseline - 0.86
 - ro_core_news_sm default spacy pipeline - Lucian - 0.55
 - ro_core_news_md default spacy pipeline - Lucian - 0.62
 - ro_core_news_lg default spacy pipeline - Lucian - 0.63
