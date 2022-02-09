@@ -52,6 +52,8 @@ def train_word2vec(docs):
     model.save("checkpoints/fasttext.model")
     print("saved model")
 
+from sklearn.ensemble import VotingClassifier
+
 from sklearn.pipeline import Pipeline
 
 def load_word2vec():

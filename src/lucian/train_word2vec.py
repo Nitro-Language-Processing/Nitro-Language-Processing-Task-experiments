@@ -57,8 +57,7 @@ def load_word2vec():
     return gensim.models.Word2Vec.load("checkpoints/word2vec.model")
 
 
-
-
+from sklearn.ensemble import VotingClassifier
 from sklearn.pipeline import Pipeline
 
 def ensemble_voting(X_train, y_train, X_test, y_test):
