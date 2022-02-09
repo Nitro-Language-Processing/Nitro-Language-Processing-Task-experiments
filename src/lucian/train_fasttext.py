@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 import pdb
 import random
-from gensim.models import Word2Vec
+from gensim.models import FastText
 # define training data
 from gensim.test.utils import common_texts
 from nltk.corpus import stopwords
@@ -47,24 +47,19 @@ def prepare_data():
 
 
 def train_word2vec(docs):
-    model = Word2Vec(sentences=docs, vector_size=150, window=5, min_count=1,
-                     workers=multiprocessing.cpu_count())  # an word2vec model is trained
-    model.save("checkpoints/word2vec.model")  # checkpoint is saved
+    model = FastText(vector_size=200, window=5, min_count=1, sentences=docs, epochs=10,
+                     workers=multiprocessing.cpu_count())
+    model.save("checkpoints/fasttext.model")
     print("saved model")
 
 
 def load_word2vec():
-    return gensim.models.Word2Vec.load("checkpoints/word2vec.model")
-
-
+    return gensim.models.FastText.load("checkpoints/fasttext.model")
 
 
 def ensemble_voting(X_train, y_train, X_test, y_test):
     estimators = [
-        ('svc', SVC(class_weight="balanced")),
         ('random_forest', RandomForestClassifier(class_weight="balanced")),
-        ('decision_tree', DecisionTreeClassifier(class_weight="balanced")),
-        ('xgb', XGBClassifier())
     ]
 
     ensemble = Pipeline(steps=[("voter", VotingClassifier(estimators))])
