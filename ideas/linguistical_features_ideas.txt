@@ -1,0 +1,39 @@
+feature-uri discutie Bleo-Luci:
+
+daca incepe cu litera mare(T/F)
+cate litere mari are ca procent % din cuvant
+daca are sau nu semne de punctuatie
+cate litere sunt semne de punctuatie % din cuvant
+
+parti de vorbire 2 cuvinte la stanga 2 cuvinte la dreapta + parte de vorbire cuvantul insusi
+idem pentru parte de propozitie / NERs pentru cuvantul insusi si 2 la stanga, 2 la dreapta
+(se va adauga o bordare de tipul LEFT_LEFT_PAD, LEFT_PAD, RIGHT_PAD, RIGHT_RIGHT_PAD) si de adaugat -4, -3, -2, -1 la
+toate feature-urile pe care ar trebui sa le aiba astea
+
+regex-uri pentru cautat datetime, period, quantity, money,
+
+money - simboluri pentru bani $, euro, lira, yen
+
+ordinal - librarie de convertit  din ordinal in numar in sine din ordinal in cifre arabe
+
+
+
+al catelea cuvant e in propozitie
+cat de lung este cuvantul
+
+daca are sau nu spatii in el
+cate spatii are in el (numeric sau procent)
+
+daca are sau nu cratima in el
+cate cratima are in el (numeric sau procent)
+
+daca are sau nu puncte in el
+cate puncte are in el (numeric sau procent)
+
+de verificat o lista de limbi/lista de tari si vazut care se aseamana mai mult pentru language
+
+daca este sau nu abreviere (regex de abreviere)
+
+cate sunt cifre/numere romane? ca procent
+daca sunt cifre ca numere romane? T/F
+
