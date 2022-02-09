@@ -70,16 +70,12 @@ def ensemble_voting(X_train, y_train, X_test, y_test):
 
 def train_classifier_head(X_train, y_train, X_test, y_test):
     clfs = [
-        ('logistic', SVC(class_weight="balanced")),
         ('random_forest', RandomForestClassifier(class_weight="balanced")),
-        ('decision_tree', DecisionTreeClassifier(class_weight="balanced")),
-        ('xgb', XGBClassifier())
     ]
     for (name, clf) in clfs:
         print(X_train.shape)
         clf.fit(X_train, y_train)
-        # y_pred = clf.predict(X_test)
-        y_pred = np.zeros(shape=y_test.shape)
+        y_pred = clf.predict(X_test)
         test_score = f1_score(y_test, y_pred, average="weighted")
         print("*" * 10)
         print(f"F1 score: {test_score} - CLF: {name}")
