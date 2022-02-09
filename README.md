@@ -19,11 +19,11 @@ Experiments List:
 - countvectorizer vectorization as feature extraction with any classifier over - Luci - 0.55
 - tfidfvectorizer vectorization as feature extraction with any classifier over - Luci - 0.61
 - stringkernels transformation as feature extraction with any classifier over - Luci - ?
-- linguistical features as feature extraction with any classifier over - unassigned - ?
+- linguistical features as feature extraction with any classifier over - Luci - ?
 - Automated Concatenation of Embeddings for Structured Prediction - https://arxiv.org/pdf/2010.05006.pdf - tonio - ?
 - Other BERT-like transformers other than the one from Stefan Dumitrescu's paper - unassigned - ?
 - Logistic regression/Perceptron/SVM classifier with context information (let's say 2 tokens to the left, 2 tokens to the right and extract features) - unassigned - ?
-- conditional random field (CRF), it is one of the most well known models applied for this NER task (please refer to one of these: https://sklearn-crfsuite.readthedocs.io/en/latest/, https://python-crfsuite.readthedocs.io/en/latest/ ) - unassigned - ?
+- conditional random field (CRF), it is one of the most well known models applied for this NER task (please refer to one of these: https://sklearn-crfsuite.readthedocs.io/en/latest/, https://python-crfsuite.readthedocs.io/en/latest/ ) - Luci - ?
 - SEQ2SEQ model with a LSTM on top - unassigned - ?
 - AutoEncoder for feature extraction in the latent space with a classifier on top - unassigned - ?
 - Perceiver based architecture with a word embedding in order to extract the byte arrays- unassigned - ?
