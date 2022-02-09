@@ -12,7 +12,7 @@ Experiments List:
 - ro_core_news_lg finetuned spacy pipeline - unassigned - ?
 - bert embeddings as feature extraction with any classifier over - unassigned - ?
 - flair embeddings as feature extraction with any classifier over - unassigned - ?
-- fasttext embeddings as feature extraction with any classifier over - unassigned - ?
+- fasttext embeddings as feature extraction with any classifier over - Luci - ?
 - word2vec embeddings as feature extraction with any classifier over - Bleo & Luci - ?
 - glove embeddings as feature extraction with any classifier over - unassigned - ?
 - countvectorizer vectorization as feature extraction with any classifier over - Luci - 0.55
