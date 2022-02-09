@@ -59,6 +59,8 @@ def load_word2vec():
 
 
 
+from sklearn.pipeline import Pipeline
+
 def ensemble_voting(X_train, y_train, X_test, y_test):
     estimators = [
         ('svc', SVC(class_weight="balanced")),
