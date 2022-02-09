@@ -47,11 +47,12 @@ def prepare_data():
 
 
 def train_word2vec(docs):
-    model = FastText(vector_size=200, window=5, min_count=1, sentences=docs, epochs=10,
+    model = FastText(vector_size=150, window=5, min_count=1, sentences=docs, epochs=10,
                      workers=multiprocessing.cpu_count())
     model.save("checkpoints/fasttext.model")
     print("saved model")
 
+from sklearn.pipeline import Pipeline
 
 def load_word2vec():
     return gensim.models.FastText.load("checkpoints/fasttext.model")
@@ -146,6 +147,6 @@ def main():
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratify=y)
     classifier_experiment(X_train, y_train, X_test, y_test)
-    print("label 000000000000000000000000000000000000")
+
 if __name__ == '__main__':
     main()

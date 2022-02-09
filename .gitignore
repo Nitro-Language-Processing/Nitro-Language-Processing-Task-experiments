@@ -3,3 +3,4 @@ data
 src/lucian/*.npy
 src/common/__pycache__/
 checkpoints
+product_ner
