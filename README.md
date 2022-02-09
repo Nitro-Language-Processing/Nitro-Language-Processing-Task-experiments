@@ -4,6 +4,7 @@ This repository will contain a couple of experiments &amp; benchmarks performed 
 Experiments List:
 
 - current state-of-the-art: Romanian BERT Baseline - 0.86
+- result if just the majority class label is predicted every time - Luci - 0.63
 - ro_core_news_sm default spacy pipeline - Luci - 0.55
 - ro_core_news_md default spacy pipeline - Luci - 0.62
 - ro_core_news_lg default spacy pipeline - Luci - 0.63
@@ -12,8 +13,8 @@ Experiments List:
 - ro_core_news_lg finetuned spacy pipeline - unassigned - ?
 - bert embeddings as feature extraction with any classifier over - unassigned - ?
 - flair embeddings as feature extraction with any classifier over - unassigned - ?
-- fasttext embeddings as feature extraction with any classifier over - Luci - ?
-- word2vec embeddings as feature extraction with any classifier over - Bleo & Luci - ?
+- fasttext embeddings as feature extraction with any classifier over - Luci - 0.64 (best: RandomForest clf)
+- word2vec embeddings as feature extraction with any classifier over - Bleo & Luci - 0.65 (best: RandomForest clf) 
 - glove embeddings as feature extraction with any classifier over - unassigned - ?
 - countvectorizer vectorization as feature extraction with any classifier over - Luci - 0.55
 - tfidfvectorizer vectorization as feature extraction with any classifier over - Luci - 0.61
