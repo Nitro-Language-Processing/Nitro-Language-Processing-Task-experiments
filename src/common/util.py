@@ -55,6 +55,7 @@ def get_data(filepath, change_ner_tags=False, change_ner_ids=False, first_n=None
                 if ner_id % 2 == 1:
                     ner_id -= 1
                 new_ner_ids.append(ner_id)
+            new_ner_ids = [ner_id // 2 for ner_id in new_ner_ids]
             data[i]["ner_ids"] = new_ner_ids
 
 
