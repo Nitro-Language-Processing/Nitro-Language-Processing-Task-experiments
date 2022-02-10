@@ -4,13 +4,20 @@ import linalg
 import matplotlib.pyplot as plt
 import nltk
 import nltk
+import pronouncing
 import textstat
+from nltk.corpus import wordnet
 from nltk.corpus import wordnet as wn
 from nltk.stem import PorterStemmer
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
 from statistics import *
 from statistics import mean
+from textblob import TextBlob
+from wordfreq import word_frequency
+
+money_symbols = ["$", "£", "€", "lei", "RON", "USD", "EURO", "dolari", "lire", "yeni"]
+roman_numerals = "XLVDCMI"
 
 inflect = inflect.engine()
 
@@ -66,11 +73,27 @@ from xgboost import XGBRegressor
 import nltk
 from nltk.corpus import wordnet
 
+PAD_TOKEN = "__PAD__"
+word2vec_model = Word2Vec.load("checkpointsword2vec.model")
+
+import nltk
+
+import copy
+
+numpy_arrays_path = "data/numpy_data"
+# word2vec_model = Word2Vec.load("src/embeddings_train/fasttext.model")
+from nltk.corpus import wordnet
+
 stop_words = set(stopwords.words('english'))
 lemmatizer = WordNetLemmatizer()
 stemmer = PorterStemmer()
 GOOD = 0
 ERRORS = 0
+# TODO change these values
+LEFT_LEFT_TOKEN = -4
+LEFT_TOKEN = -3
+RIGHT_TOKEN = -1
+RIGHT_RIGHT_TOKEN = -2
 
 
 def count_letters(target):
@@ -381,7 +404,6 @@ def word_origin(word):
     return max(mapping, key=mapping.get)
 
 
-
 def word_polarity(word):
     blob = TextBlob(word)
     return blob.sentiment.polarity
@@ -410,8 +432,6 @@ def get_phrase_num_tokens(phrase):
     return len(word_tokenize(phrase))
 
 
-
-
 def custom_wup_similarity(word1, word2):
     try:
         syn1 = wordnet.synsets(word1)[0]
@@ -435,13 +455,13 @@ def get_wup_avg_similarity(target, tokens=None):
         return 0.0
 
 
-import pronouncing
+def has_money_tag(text):
+    global money_symbols
+    for sym in money_symbols:
+        if sym.lower() in text.lower():
+            return True
+    return False
 
-from textblob import TextBlob
-from wordfreq import word_frequency
-
-
-from nltk.corpus import wordnet
 
 def starts_with_capital_letter(word):
     if word[0] in string.ascii_uppercase:
@@ -449,12 +469,37 @@ def starts_with_capital_letter(word):
     return False
 
 
-def count_capital_chars(text):
-    count = 0
-    for i in text:
-        if i.isupper():
-            count += 1
-    return count
+def get_len(text):
+    return len(text)
+
+
+def get_capital_letters_pct(text):
+    return len([c for c in text if c in string.ascii_uppercase]) / len(text)
+
+
+def get_roman_numerals_pct(text):
+    global roman_numerals
+    return len([c for c in text if c in roman_numerals]) / len(text)
+
+
+def get_digits_pct(text):
+    return len([c for c in text if c in string.digits]) / len(text)
+
+
+def get_punctuation_pct(text):
+    return len([c for c in text if c in string.punctuation]) / len(text)
+
+
+def get_dash_pct(text):
+    return len([c for c in text if c == "-"]) / len(text)
+
+
+def get_spaces_pct(text):
+    return len([c for c in text if c == " "]) / len(text)
+
+
+def get_dots_pct(text):
+    return len([c for c in text if c == "."]) / len(text)
 
 
 def count_capital_words(text, tokens=None):
@@ -473,21 +518,9 @@ def count_punctuations(text):
     return 0.0
 
 
-
 def get_word_frequency(target, tokens=None):
     tokens = word_tokenize(target) if tokens == None else tokens
     return mean([word_frequency(token, 'ro') for token in tokens])
-
-
-PAD_TOKEN = "__PAD__"
-word2vec_model = Word2Vec.load("checkpointsword2vec.model")
-
-import nltk
-
-import copy
-numpy_arrays_path = "data/numpy_data"
-# word2vec_model = Word2Vec.load("src/embeddings_train/fasttext.model")
-from nltk.corpus import wordnet
 
 
 def count_vowels(word):
@@ -518,8 +551,6 @@ def get_vowel_pct(word):
 
 def get_consonants_pct(word):
     return count_consonants(word) / len(word)
-
-
 
 
 def get_part_of_speech(sentence, tokens=None):

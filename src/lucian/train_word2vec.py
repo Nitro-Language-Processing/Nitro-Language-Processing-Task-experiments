@@ -1,3 +1,4 @@
+import gensim
 import matplotlib.pyplot as plt
 import multiprocessing
 import nltk
@@ -12,12 +13,13 @@ from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import VotingClassifier
 from sklearn.metrics import f1_score
+from sklearn.pipeline import Pipeline
 from sklearn.svm import SVC
+from sklearn.tree import DecisionTreeClassifier
 from xgboost import XGBClassifier
 
-import gensim
 from src.common.util import *
 
 stop_words = set(stopwords.words('english'))
@@ -57,9 +59,6 @@ def load_word2vec():
     return gensim.models.Word2Vec.load("checkpoints/word2vec.model")
 
 
-from sklearn.ensemble import VotingClassifier
-from sklearn.pipeline import Pipeline
-
 def ensemble_voting(X_train, y_train, X_test, y_test):
     estimators = [
         ('svc', SVC(class_weight="balanced")),
@@ -91,6 +90,7 @@ def train_classifier_head(X_train, y_train, X_test, y_test):
         print(f"F1 score: {test_score} - CLF: {name}")
         print("*" * 10)
 
+
 def embed(text, word2vec_model):
     try:
         vector = word2vec_model.wv[document_preprocess(text)]
@@ -99,6 +99,7 @@ def embed(text, word2vec_model):
     except KeyError:
         vector = np.random.rand(1, 150)
     return vector
+
 
 def create_train_test_data(word2vec_model):
     data, _ = get_all_data(first_n=100)
@@ -139,6 +140,7 @@ def classifier_experiment(X_train, y_train, X_test, y_test):
     train_classifier_head(X_train, y_train, X_test, y_test)
     ensemble_voting(X_train, y_train, X_test, y_test)
 
+
 def main():
     prepare_data()
     docs = load_liro_dataset()
@@ -157,5 +159,7 @@ def main():
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratify=y)
     classifier_experiment(X_train, y_train, X_test, y_test)
     print("label 000000000000000000000000000000000000")
+
+
 if __name__ == '__main__':
     main()
