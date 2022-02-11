@@ -123,6 +123,8 @@ def prepare_data_for_crf():
 from tqdm import tqdm
 import pdb
 
+# def get_class_weight(labels):
+
 def train_model(train_dl, crf_model):
     # define the optimization
     criterion = CrossEntropyLoss()
@@ -152,7 +154,10 @@ def train_model(train_dl, crf_model):
             # labels = torch.LongTensor([[0, 2, 3], [1, 4, 1]]).to(device)  # (batch_size, sequence_size)
             hidden = torch.randn((BATCH_SIZE, MAX_SEQ_LEN, NUM_LABELS), requires_grad=True).to(device)
             # pdb.set_trace()
-            yhat = crf_model.forward(h=hidden,
+            # print(i, "*" * 50, hidden.shape, targets.shape, mask.shape)
+            if hidden.shape[0] != BATCH_SIZE or targets.shape[0] != BATCH_SIZE or mask.shape[0] != BATCH_SIZE:
+                continue
+            losses = crf_model.forward(h=hidden,
                                      labels=targets,
                                      mask=mask)
 
@@ -160,15 +165,15 @@ def train_model(train_dl, crf_model):
             # calculate loss
             # pdb.set_trace()
 
-            for i in range(len(yhat)):
-                while len(yhat[i]) < MAX_SEQ_LEN:
-                    yhat[i].append(token_pad_value)
-
-            # pdb.set_trace()
-
+            for j in range(len(yhat)):
+                while len(yhat[j]) < MAX_SEQ_LEN:
+                    yhat[j].append(token_pad_value)
             yhat = torch.tensor(yhat)
 
-            loss = criterion(yhat, targets)
+            # pdb.set_trace()
+            loss = criterion(torch.transpose(torch.nn.functional.one_hot(yhat), 2, 1).float(), targets)
+            loss.requires_grad = True
+            # pdb.set_trace()
             # credit assignment
             loss.backward()
             # update model weights
@@ -178,35 +183,62 @@ def train_model(train_dl, crf_model):
 
 
 def evaluate_model(test_dl, crf_model):
+    token_pad_value = 0
+    ner_id_pad_value = 0  # 16
     predictions, actuals = list(), list()
     for i, (inputs, targets, seq_lens) in tqdm(enumerate(test_dl)):
+        if inputs.shape[0] != BATCH_SIZE or targets.shape[0] != BATCH_SIZE:
+            continue
         # evaluate the model on the test set
-        yhat = crf_model.viterbi_decode(inputs)
+        print(i, "*" * 50, inputs.shape, targets.shape)
+        rand = torch.rand(inputs.shape)
+        # where the random array is less than 0.15, we set true
+        mask = rand < 0.15
+        hidden = torch.randn((BATCH_SIZE, MAX_SEQ_LEN, NUM_LABELS), requires_grad=True).to(device)
+
+        inputs = inputs.to(device)
+        targets = targets.to(device)
+        mask = mask.to(device)
+
+        yhat = crf_model.viterbi_decode(hidden, mask)
         # retrieve numpy array
+
+        for j in range(len(yhat)):
+            while len(yhat[j]) < MAX_SEQ_LEN:
+                yhat[j].append(token_pad_value)
+        yhat = torch.tensor(yhat)
+
         yhat = yhat.detach().numpy()
         actual = targets.numpy()
-        actual = actual.reshape((len(actual), 1))
-        # round to class values
-        yhat = yhat.round()
+
+        # pdb.set_trace()
+        # actual = actual.reshape((len(actual), 1))
+        # # round to class values
+        # yhat = yhat.round()
         # store
-        predictions.append(yhat)
-        actuals.append(actual)
+
+        flatten_yhat = []
+        for j in range(len(yhat)):
+            for elem in yhat[j][:seq_lens[j]]:
+                flatten_yhat.append(elem)
+
+        flattent_actual = []
+        for j in range(len(actual)):
+            for elem in actual[j][:seq_lens[j]]:
+                flattent_actual.append(elem)
+
+        predictions.append(flatten_yhat)
+        actuals.append(flattent_actual)
 
     predictions, actuals = vstack(predictions), vstack(actuals)
     # calculate accuracy
-    acc = accuracy_score(actuals, np.argmax(predictions, axis=-1))
+    pdb.set_trace()
+
+    actuals = actuals[0]
+    predictions = predictions[0]
+
+    acc = accuracy_score(actuals, predictions)
     return acc
-
-
-# make a class prediction for one row of data
-def predict(row, crf_model):
-    # convert row to data
-    row = Tensor([row])
-    # make prediction
-    yhat = crf_model.forward(row)
-    # retrieve numpy array
-    yhat = yhat.detach().numpy()
-    return yhat
 
 
 def train_crf_model():

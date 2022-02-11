@@ -13,7 +13,7 @@ Experiments List:
 - ro_core_news_lg finetuned spacy pipeline - unassigned - ?
 - bert embeddings as feature extraction with any classifier over - unassigned - ?
 - flair embeddings as feature extraction with any classifier over - unassigned - ?
-- fasttext embeddings as feature extraction with any classifier over - Luci - 0.64 (best: RandomForest clf)
+- fasttext embeddings as feature extraction with any classifier over - Luci - 0.64 (single best: RandomForest clf, ensemble best: RF+DT+XGB+SVC+MNB: 0.84)
 - word2vec embeddings as feature extraction with any classifier over - Bleo & Luci - 0.65 (best: RandomForest clf) 
 - glove embeddings as feature extraction with any classifier over - unassigned - ?
 - countvectorizer vectorization as feature extraction with any classifier over - Luci - 0.55
