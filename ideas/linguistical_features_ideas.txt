@@ -1,10 +1,10 @@
-feature-uri discutie Bleo-Luci:
+feature-uri discutie Miruna-Bleo-Luci:
 
-daca se termina in a/ei
+daca se termina in a/ei - DONE
 
 Dl. Dr. Prof. Dna. pentru PERSON sau numele complet(regex)
 
-daca contin stopwords in ele
+daca contin stopwords in ele - done
 
 daca incepe cu litera mare(T/F) -  Done
 cate litere mari are ca procent % din cuvant -  Done
@@ -20,22 +20,17 @@ regex-uri pentru cautat datetime, period, quantity, money,
 
 money - simboluri pentru bani $, euro, lira, yen - DONE
 
-ordinal - librarie de convertit  din ordinal in numar in sine din ordinal in cifre arabe
-
 regex/librarie python care verifica ca e datetime
 
-procentul de stopwords din token
-
-lista de unitati de masura pentru wikipedia
+procentul de stopwords din token - done
 
 lista de currency-uri de pe wikipedia
 
-librarie de convertit din string in numar (din o mie -> 1000)
+librarie de convertit din string in numar (din o mie -> 1000) - NOPE
 
-librarii care identifica primul/al doilea and so on
+librarii care identifica primul/al doilea and so on - NOPE
 
 librarie pentru keywords de institutii
-
 
 librarii pt checkuit orice cu python
 
@@ -55,22 +50,24 @@ cate cratima are in el (numeric sau procent)- DOne
 daca are sau nu puncte in el-DOne
 cate puncte are in el (numeric sau procent)-DOne
 
-daca contine cuvantul "limba" sau un cuvant de aici: https://ro.wikipedia.org/wiki/List%C4%83_de_limbi
+daca contine cuvantul "limba" sau un cuvant de aici:
+https://ro.wikipedia.org/wiki/List%C4%83_de_limbi  - done
 
-de cautat lista de organizatii, formule de adresare pentru persoane, asociatii, etc, lista de orase, regiuni, judete etc.
+de cautat lista de organizatii, formule de adresare
+pentru persoane, asociatii, etc, lista de orase, regiuni, judete etc.
 
-api de facut call catre un api de la google maps care iti spune ca este sau nu este locatie
+api de facut call catre un api de la google maps
+care iti spune ca este sau nu este locatie
 
-de cautat liste de organizatii nationale, politice sau religioase (daca incepe cu partidul, alianta, cultul etc)
-
-de verificat o lista de limbi/lista de tari si vazut care se aseamana mai mult pentru language
+de cautat liste de organizatii nationale, politice
+sau religioase (daca incepe cu partidul, alianta, cultul etc)
 
 daca este sau nu abreviere (regex de abreviere)
 
-cate sunt cifre/numere romane? ca procent DOne (ca feature-uri separate)
-daca sunt cifre ca numere romane? T/F Done
+cate sunt cifre/numere romane? ca procent - DOne (ca feature-uri separate)
+daca sunt cifre ca numere romane? T/F  - Done
 
-daca are sau nu are backlash / : / frontslash
+daca are sau nu are backlash / : / frontslash - done
 
 regexuri
 

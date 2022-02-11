@@ -95,322 +95,34 @@ LEFT_TOKEN = -3
 RIGHT_TOKEN = -1
 RIGHT_RIGHT_TOKEN = -2
 
+all_languages = set(list(np.save(file="data/all_languages_list.npy", allow_pickle=True)))
+
+
+def is_there_a_language(text):
+    for lang in all_languages:
+        if lang in text:
+            return True
+    return False
+
+
+def might_be_feminine_surname(text):
+    text = text.lower()
+    return text.endswith("ei") or text.endswith("a")
+
+
+import spacy
+
+nlp = spacy.load('ro_core_news_sm')
+all_stopwords = set(list(nlp.Defaults.stop_words))
+
+
+def get_stopwords_pct(text):
+    tokens = set(word_tokenize(text))
+    return len(tokens.intersection(all_stopwords)) / len(tokens)
+
 
 def count_letters(target):
     return len(target)
-
-
-def get_base_word_pct(initial_word, root=None, tokens=None):
-    tokens = word_tokenize(initial_word) if tokens == None else tokens
-    ans = []
-    """the higher the more complex a word it is because it requires many subwords"""
-    for token in tokens:
-        root = lemmatizer.lemmatize(token) if root is None else root
-        ans.append(1 - (len(root) / len(token)))
-    if len(ans):
-        return mean(ans)
-    return ans
-
-
-def has_prefix(initial_word, root=None, tokens=None):
-    tokens = word_tokenize(initial_word) if tokens == None else tokens
-    ans = []
-    for token in tokens:
-        root = lemmatizer.lemmatize(token) if root is None else root
-        ans.append(not token.startswith(root))
-    if len(ans):
-        return mean(ans)
-    return ans
-
-
-def has_suffix(initial_word, root=None, tokens=None):
-    tokens = word_tokenize(word) if tokens == None else tokens
-    ans = []
-    for token in tokens:
-        root = lemmatizer.lemmatize(token) if root is None else root
-        ans.append(not initial_word.endswith(root))
-    if len(ans):
-        return mean(ans)
-    return ans
-
-
-def has_both_affixes(initial_word, root=None, tokens=None):
-    tokens = word_tokenize(word) if tokens == None else tokens
-    ans = []
-    for token in tokens:
-        root = lemmatizer.lemmatize(token) if root is None else root
-        ans.append(has_prefix(initial_word, root) and has_suffix(initial_word, root))
-    if len(ans):
-        return mean(ans)
-    return ans
-
-
-def get_base_word_pct_stem(initial_word, root=None, tokens=None):
-    """the higher the more complex a word it is because it requires many subwords"""
-    tokens = word_tokenize(word) if tokens == None else tokens
-    ans = []
-    for token in tokens:
-        root = stemmer.stem(token) if root is None else root
-        ans.append(1 - (len(root) / len(initial_word)))
-    if len(ans):
-        return mean(ans)
-    return ans
-
-
-def has_prefix_stem(initial_word, root=None, tokens=None):
-    tokens = word_tokenize(initial_word) if tokens == None else tokens
-    ans = []
-    for token in tokens:
-        root = stemmer.stem(token) if root is None else root
-        ans.append(not initial_word.startswith(root))
-    if len(ans):
-        return mean(ans)
-    return ans
-
-
-def has_suffix_stem(initial_word, root=None, tokens=None):
-    tokens = word_tokenize(initial_word) if tokens == None else tokens
-    ans = []
-    for token in tokens:
-        root = stemmer.stem(token) if root is None else root
-        ans.append(not initial_word.endswith(root))
-    if len(ans):
-        return mean(ans)
-    return ans
-
-
-def has_both_affixes_stem(initial_word, root=None, tokens=None):
-    tokens = word_tokenize(word) if tokens == None else tokens
-    ans = []
-    for token in tokens:
-        root = stemmer.stem(token) if root is None else root
-        ans.append(has_prefix_stem(initial_word, root) and has_suffix_stem(initial_word, root))
-    if len(ans):
-        return mean(ans)
-    return ans
-
-
-def count_hypernyms(word, tokens=None):
-    tokens = word_tokenize(word) if tokens == None else tokens
-    ans = []
-    for token in tokens:
-        word_synsets = wn.synsets(token)
-        ans.append(sum([len(word_synset.hypernyms()) for word_synset in word_synsets]))
-    if len(ans):
-        return mean(ans)
-    return ans
-
-
-def count_hyponyms(word, tokens=None):
-    tokens = word_tokenize(word) if tokens == None else tokens
-    ans = []
-    for token in tokens:
-        word_synsets = wn.synsets(token)
-        ans.append(sum([len(word_synset.hyponyms()) for word_synset in word_synsets]))
-    if len(ans):
-        return mean(ans)
-    return ans
-
-
-def count_antonyms(word, tokens=None):
-    tokens = word_tokenize(word) if tokens == None else tokens
-    ans = []
-    for token in tokens:
-        antonyms_list = []
-        for syn in wordnet.synsets(token):
-            for l in syn.lemmas():
-                if l.antonyms():
-                    antonyms_list.append(l.antonyms()[0].name())
-        ans.append(len(set(antonyms_list)))
-    if len(ans):
-        return mean(ans)
-    return 0.0
-
-
-def count_synonyms(word, tokens=None):
-    tokens = word_tokenize(word) if tokens == None else tokens
-    ans = []
-    for token in tokens:
-        synonyms_list = []
-        for syn in wordnet.synsets(token):
-            for l in syn.synonyms():
-                synonyms_list.append(l.name())
-        ans.append(len(set(synonyms_list)))
-    if len(ans):
-        return mean(ans)
-    return 0.0
-
-
-def count_meronyms(word, tokens=None):
-    tokens = word_tokenize(word) if tokens == None else tokens
-    ans = []
-    for token in tokens:
-        ans.append(sum([len(syn.meronyms()) for syn in wordnet.synsets(token)]))
-    if len(ans):
-        return mean(ans)
-    return 0.0
-
-
-def count_part_meroynms(word, tokens=None):
-    tokens = word_tokenize(word) if tokens == None else tokens
-    ans = []
-    for token in tokens:
-        ans.append(sum([len(syn.part_meronyms()) for syn in wordnet.synsets(token)]))
-    if len(ans):
-        return mean(ans)
-    return 0.0
-
-
-def count_substance_meroynms(word, tokens=None):
-    tokens = word_tokenize(word) if tokens == None else tokens
-    ans = []
-    for token in tokens:
-        ans.append(sum([len(syn.substance_meronyms()) for syn in wordnet.synsets(token)]))
-    if len(ans):
-        return mean(ans)
-    return 0.0
-
-
-def count_holonyms(word, tokens=None):
-    tokens = word_tokenize(word) if tokens == None else tokens
-    ans = []
-    for token in tokens:
-        ans.append(sum([len(syn.holonyms()) for syn in wordnet.synsets(token)]))
-    if len(ans):
-        return mean(ans)
-    return 0.0
-
-
-def count_part_holonyms(word, tokens=None):
-    tokens = word_tokenize(word) if tokens == None else tokens
-    ans = []
-    for token in tokens:
-        ans.append(sum([len(syn.part_holonyms()) for syn in wordnet.synsets(token)]))
-    if len(ans):
-        return mean(ans)
-    return 0.0
-
-
-def count_substance_holonyms(word, tokens=None):
-    tokens = word_tokenize(word) if tokens == None else tokens
-    ans = []
-    for token in tokens:
-        ans.append(sum([len(syn.substance_holonyms()) for syn in wordnet.synsets(token)]))
-    if len(ans):
-        return mean(ans)
-    return 0.0
-
-
-def count_entailments(word, tokens=None):
-    tokens = word_tokenize(word) if tokens == None else tokens
-    ans = []
-    for token in tokens:
-        ans.append(sum([len(syn.entailments()) for syn in wordnet.synsets(token)]))
-    if len(ans):
-        return mean(ans)
-    return 0.0
-
-
-def count_troponyms(word, tokens=None):
-    tokens = word_tokenize(word) if tokens == None else tokens
-    ans = []
-    for token in tokens:
-        ans.append(sum([len(syn.troponyms()) for syn in wordnet.synsets(token)]))
-    if len(ans):
-        return mean(ans)
-    return 0.0
-
-
-def count_definitions_average_tokens_length(word, tokens=None):
-    tokens = word_tokenize(word) if tokens == None else tokens
-    ans = []
-    for token in tokens:
-        try:
-            res = mean([len(word_tokenize(syn.definition())) for syn in wordnet.synsets(token)])
-        except:
-            res = 0.0
-        ans.append(res)
-    if len(ans):
-        return mean(ans)
-    return 0.0
-
-
-def count_definitions_average_characters_length(word, tokens=None):
-    tokens = word_tokenize(word) if tokens == None else tokens
-    ans = []
-    for token in tokens:
-        try:
-            res = mean([len(syn.definition()) for syn in wordnet.synsets(token)])
-        except:
-            res = 0.0
-        ans.append(res)
-    if len(ans):
-        return mean(ans)
-    return 0.0
-
-
-def count_definitions_tokens_length(word, tokens=None):
-    tokens = word_tokenize(word) if tokens == None else tokens
-    ans = []
-    for token in tokens:
-        ans.append(sum([len(word_tokenize(syn.definition())) for syn in wordnet.synsets(token)]))
-    if len(ans):
-        return mean(ans)
-    return 0.0
-
-
-def count_definitions_characters_length(word, tokens=None):
-    tokens = word_tokenize(word) if tokens == None else tokens
-    ans = []
-    for token in tokens:
-        ans.append(sum([len(syn.definition()) for syn in wordnet.synsets(token)]))
-    if len(ans):
-        return mean(ans)
-    return 0.0
-
-
-def is_singular(word):
-    return int(inflect.singular_noun(word))
-
-
-def is_plural():
-    return int(inflect.plural_noun(word))
-
-
-def check_word_compounding(word, tokens=None):
-    tokens = word_tokenize(word) if tokens == None else tokens
-    ans = []
-    for token in tokens:
-        ans.append(len(segment(token)))
-    if len(ans):
-        return mean(ans)
-    return 0.0
-
-
-def word_origin(word):
-    import ety
-    origins = ety.origins(word)
-    predominant_languages = ["french", "english", "german", "latin", "spanish", "italian", "russian", "greek"]
-    mapping = {lang: 0 for lang in predominant_languages}
-
-    origin_languages = []
-    for origin in origins:
-        for language in predominant_languages:
-            if language in origin.language.lower():
-                mapping[language] += 1
-                break
-        mapping[language] = origin.language.lower()
-
-    return max(mapping, key=mapping.get)
-
-
-def word_polarity(word):
-    blob = TextBlob(word)
-    return blob.sentiment.polarity
-
-
-def get_target_phrase_ratio(phrase, word):
-    return len(word) / len(phrase)
 
 
 def get_phrase_len(phrase):
@@ -430,29 +142,6 @@ def get_word_position_in_phrase(phrase, start_offset):
 
 def get_phrase_num_tokens(phrase):
     return len(word_tokenize(phrase))
-
-
-def custom_wup_similarity(word1, word2):
-    try:
-        syn1 = wordnet.synsets(word1)[0]
-        syn2 = wordnet.synsets(word2)[0]
-        return syn1.wup_similarity(syn2)
-    except:
-        return 0.0
-
-
-def get_wup_avg_similarity(target, tokens=None):
-    tokens = word_tokenize(target) if tokens is not None else tokens
-    if len(tokens) == 1:
-        return 0.0
-    else:
-        ans = []
-        for tok in tokens:
-            for tok_ in tokens:
-                ans.append(custom_wup_similarity(tok, tok_))
-        if len(ans):
-            return mean(ans)
-        return 0.0
 
 
 def has_money_tag(text):
@@ -498,6 +187,14 @@ def get_spaces_pct(text):
     return len([c for c in text if c == " "]) / len(text)
 
 
+def get_slashes_pct(text):
+    return len([c for c in text if c == "/" or c == "\\"]) / len(text)
+
+
+def get_text_similarity(text_1, text_2):
+    pass
+
+
 def get_dots_pct(text):
     return len([c for c in text if c == "."]) / len(text)
 
@@ -523,36 +220,6 @@ def get_word_frequency(target, tokens=None):
     return mean([word_frequency(token, 'ro') for token in tokens])
 
 
-def count_vowels(word):
-    return len([c for c in word if c in "aeiou"])
-
-
-def count_consonants(word):
-    consonants = "bcdfghjklmnpqrstvwxyz"
-    return len([c for c in word if c in consonants])
-
-
-def count_double_consonants(word):
-    consonants = "bcdfghjklmnpqrstvwxyz"
-    cnt = 0
-    for i in range(len(word) - 1):
-        if word[i] == word[i + 1] and word[i] in consonants and word[i + 1] in consonants:
-            cnt += 1
-    return cnt
-
-
-def get_double_consonants_pct(word):
-    return count_double_consonants(word) / len(word)
-
-
-def get_vowel_pct(word):
-    return count_vowels(word) / len(word)
-
-
-def get_consonants_pct(word):
-    return count_consonants(word) / len(word)
-
-
 def get_part_of_speech(sentence, tokens=None):
     tokens = word_tokenize(sentence) if tokens == None else tokens
     pos_tags = nltk.pos_tag(tokens)
@@ -564,13 +231,6 @@ def get_good_vectorizer():
 
 
 from nltk.tokenize import TreebankWordTokenizer as twt
-
-
-def spans(phrase):
-    return list(twt().span_tokenize(phrase))
-
-
-stop_words = set(stopwords.words('english'))
 
 
 def count_sws(text, tokens=None):
