@@ -23,10 +23,10 @@ NUM_LABELS = 16
 
 class LiRoDataset():
     def __init__(self):
-        self.X, self.y = prepare_data_for_crf()
+        self.X, self.y, self.seq_lens = prepare_data_for_crf()
 
     def __getitem__(self, idx):
-        return (self.X[idx], self.y[idx])
+        return (self.X[idx], self.y[idx], self.seq_lens[idx])
 
     def __len__(self):
         return len(self.X)
@@ -48,10 +48,13 @@ def prepare_subset_for_crf(datapoints):
 
     token_pad_value = 0
     ner_id_pad_value = 0 # 16
+    seq_lens = []
 
     for datapoint in datapoints:
         ner_ids = datapoint["ner_ids"][:MAX_SEQ_LEN]
         tokens = datapoint["tokens"][:MAX_SEQ_LEN]
+
+        seq_lens.append(len(tokens))
 
         tokens = [vocab[token] for token in tokens]
 
@@ -64,7 +67,7 @@ def prepare_subset_for_crf(datapoints):
         X.append(tokens)
         y.append(ner_ids)
 
-    return np.array(X), np.array(y)
+    return np.array(X), np.array(y), np.array(seq_lens)
 
 
 def example():
@@ -126,9 +129,11 @@ def train_model(train_dl, crf_model):
     num_epochs = 10
     optimizer = Adam(crf_model.parameters())
     # enumerate epochs
+    token_pad_value = 0
+    ner_id_pad_value = 0  # 16
     for epoch in tqdm(range(num_epochs)):
         # enumerate mini batches
-        for i, (inputs, targets) in enumerate(train_dl):
+        for i, (inputs, targets, seq_lens) in enumerate(train_dl):
             # mask = torch.zeros_like(inputs).bool()
             # pdb.set_trace()
             # create random array of floats in equal dimension to input_ids
@@ -150,8 +155,19 @@ def train_model(train_dl, crf_model):
             yhat = crf_model.forward(h=hidden,
                                      labels=targets,
                                      mask=mask)
+
+            yhat = crf_model.viterbi_decode(hidden, mask)
             # calculate loss
-            pdb.set_trace()
+            # pdb.set_trace()
+
+            for i in range(len(yhat)):
+                while len(yhat[i]) < MAX_SEQ_LEN:
+                    yhat[i].append(token_pad_value)
+
+            # pdb.set_trace()
+
+            yhat = torch.tensor(yhat)
+
             loss = criterion(yhat, targets)
             # credit assignment
             loss.backward()
@@ -163,7 +179,7 @@ def train_model(train_dl, crf_model):
 
 def evaluate_model(test_dl, crf_model):
     predictions, actuals = list(), list()
-    for i, (inputs, targets) in tqdm(enumerate(test_dl)):
+    for i, (inputs, targets, seq_lens) in tqdm(enumerate(test_dl)):
         # evaluate the model on the test set
         yhat = crf_model.viterbi_decode(inputs)
         # retrieve numpy array
@@ -199,8 +215,8 @@ def train_crf_model():
     test_size = len(liro_dataset) - train_size
     train, test = torch.utils.data.random_split(liro_dataset, [train_size, test_size])
 
-    train_dl = DataLoader(train, batch_size=BATCH_SIZE, shuffle=True)
-    test_dl = DataLoader(test, batch_size=BATCH_SIZE, shuffle=True)
+    train_dl = DataLoader(train, batch_size=BATCH_SIZE, shuffle=False)
+    test_dl = DataLoader(test, batch_size=BATCH_SIZE, shuffle=False)
 
     # mask = torch.ByteTensor([[1, 1, 1], [1, 1, 0]]).to(device)  # (batch_size. sequence_size)
     # labels = torch.LongTensor([[0, 2, 3], [1, 4, 1]]).to(device)  # (batch_size, sequence_size)
