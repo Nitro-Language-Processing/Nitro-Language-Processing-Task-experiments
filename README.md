@@ -12,7 +12,7 @@ Experiments List:
 - ro_core_news_md finetuned spacy pipeline - Luci - ?
 - ro_core_news_lg finetuned spacy pipeline - Luci - ?
 - bert embeddings as feature extraction with any classifier over - unassigned - ?
-- flair embeddings as feature extraction with any classifier over - unassigned - ?
+- flair embeddings as feature extraction with any classifier over (do note that as of February 2022 there are no existing flair vectors for Romanian language, so take into consideration the fact that you also have to train a flair language model for this task, Flair only supports english, dutch, german, french and spanish) - unassigned - ?
 - fasttext embeddings as feature extraction with any classifier over - Luci - 0.64 (single best: RandomForest clf, ensemble best: RF+DT+XGB+SVC+MNB: 0.84)
 - word2vec embeddings as feature extraction with any classifier over - Bleo & Luci - 0.65 (best: RandomForest clf) 
 - glove embeddings as feature extraction with any classifier over - unassigned - ?
