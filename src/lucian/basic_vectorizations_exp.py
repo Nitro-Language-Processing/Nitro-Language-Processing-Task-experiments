@@ -9,7 +9,31 @@ from tqdm import tqdm
 from xgboost import XGBClassifier
 
 from src.common.util import *
+from stringkernels.kernels import polynomial_string_kernel
+from stringkernels.kernels import string_kernel
 
+
+
+def string_kernel_training(X_train, y_train, X_val, y_val, kernel_option="string"):
+    if kernel_option == "poly":
+        model = SVC(kernel=polynomial_string_kernel()) # 0.864
+    elif kernel_option == "string":
+        model = SVC(kernel=string_kernel()) # 0.88
+    else:
+        raise Exception(f"Wrong kernel string option {kernel_option}")
+
+    X_train = np.reshape(X_train, newshape=(X_train.shape[0], 1))
+    y_train = np.reshape(y_train, newshape=(y_train.shape[0], 1))
+
+    X_val = np.reshape(X_val, newshape=(X_val.shape[0], 1))
+    y_val = np.reshape(y_val, newshape=(y_val.shape[0], 1))
+
+    print(X_train.shape, y_train.shape)
+    print(X_val.shape, y_val.shape)
+
+    model.fit(X_train, y_train)
+    y_pred = model.predict(X_val)
+    print("String kernel score:", f1_score(y_pred, y_val, average="weighted"))
 
 def main():
     data, tag_to_id = get_all_data(change_ner_tags=True, change_ner_ids=True)
@@ -23,30 +47,46 @@ def main():
 
     analyzer = "char"
     ngram_range = (1, 1)
-    n = 5000
+    n = 50000
     # cv = CountVectorizer(analyzer=analyzer, ngram_range=ngram_range)
     cv = TfidfVectorizer(analyzer=analyzer, ngram_range=ngram_range)
     X_train, X_test, y_train, y_test = [], [], [], []
+    use_linguistical_features = True
+    from src.lucian.linguistical_feat_extractor import get_paper_features
 
     for doc in tqdm((train + valid)[:n // 10]):
         tokens = doc["tokens"]
         ner_ids = doc["ner_ids"]
-        for (token, ner_id) in zip(tokens, ner_ids):
-            X_train.append(token)
+        document = doc["reconstructed_document"]
+        for idx, (token, ner_id) in enumerate(zip(tokens, ner_ids)):
+            if use_linguistical_features:
+                X_train.append(get_paper_features(token, document, idx))
+            else:
+                X_train.append(token)
             y_train.append(ner_id)
 
     for doc in tqdm(test[:n // 40]):
         tokens = doc["tokens"]
         ner_ids = doc["ner_ids"]
-        for (token, ner_id) in zip(tokens, ner_ids):
-            X_test.append(token)
+        document = doc["reconstructed_document"]
+        for idx, (token, ner_id) in enumerate(zip(tokens, ner_ids)):
+            if use_linguistical_features:
+                X_test.append(get_paper_features(token, document, idx))
+            else:
+                X_test.append(token)
             y_test.append(ner_id)
 
-    print("before vectorization")
-    X_train = cv.fit_transform(X_train).toarray()
-    X_test = cv.transform(X_test).toarray()
-    print("after vectorization")
+    X_train = np.array(X_train)
+    X_test = np.array(X_test)
+    y_train = np.array(y_train)
+    y_test = np.array(y_test)
 
+    # string_kernel_training(np.array(X_train), np.array(y_train), np.array(X_test), np.array(y_test))
+    if not use_linguistical_features:
+        print("before vectorization")
+        X_train = cv.fit_transform(X_train).toarray()
+        X_test = cv.transform(X_test).toarray()
+        print("after vectorization")
     # model = XGBClassifier()
     model = SVC(class_weight="balanced")
 

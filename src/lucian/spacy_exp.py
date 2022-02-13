@@ -6,6 +6,10 @@ nlp = spacy.load("ro_core_news_lg")
 from tqdm import tqdm
 from statistics import mean
 
+
+def finetune_spacy_engine():
+    pass
+
 def main():
     data, tag_to_id = get_all_data(change_ner_tags=True, change_ner_ids=True)
     train = data["train"]

@@ -6,6 +6,7 @@ import nltk
 import nltk
 import pronouncing
 import textstat
+import string
 from nltk.corpus import wordnet
 from nltk.corpus import wordnet as wn
 from nltk.stem import PorterStemmer
@@ -34,17 +35,9 @@ import numpy as np
 import os
 import pdb
 import pdb
-import torch
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
-import torch.optim as optim
 from copy import deepcopy
 from gensim import corpora
 from gensim.models import Word2Vec
-from keras.layers import Dense
-from keras.models import Sequential
-from keras.wrappers.scikit_learn import KerasRegressor
 from matplotlib import pyplot as plt
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
@@ -63,22 +56,20 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.svm import SVR
-from torch.utils.data import Dataset, DataLoader
-from torch.utils.data import random_split
 from tqdm import tqdm
-from transformers import RobertaTokenizer, RobertaModel
-from transformers import pipeline
 from typing import List
 from xgboost import XGBRegressor
 import nltk
 from nltk.corpus import wordnet
 
 PAD_TOKEN = "__PAD__"
-word2vec_model = Word2Vec.load("checkpointsword2vec.model")
+word2vec_model = Word2Vec.load("checkpoints/word2vec.model")
 
 import nltk
 
 import copy
+import spacy
+
 
 numpy_arrays_path = "data/numpy_data"
 # word2vec_model = Word2Vec.load("src/embeddings_train/fasttext.model")
@@ -95,7 +86,11 @@ LEFT_TOKEN = -3
 RIGHT_TOKEN = -1
 RIGHT_RIGHT_TOKEN = -2
 
-all_languages = set(list(np.save(file="data/all_languages_list.npy", allow_pickle=True)))
+all_languages = set(list(np.load(file="data/all_languages_list.npy", allow_pickle=True)))
+nlp = spacy.load('ro_core_news_sm')
+all_stopwords = set(list(nlp.Defaults.stop_words))
+
+
 
 
 def is_there_a_language(text):
@@ -109,11 +104,6 @@ def might_be_feminine_surname(text):
     text = text.lower()
     return text.endswith("ei") or text.endswith("a")
 
-
-import spacy
-
-nlp = spacy.load('ro_core_news_sm')
-all_stopwords = set(list(nlp.Defaults.stop_words))
 
 
 def get_stopwords_pct(text):
@@ -220,16 +210,6 @@ def get_word_frequency(target, tokens=None):
     return mean([word_frequency(token, 'ro') for token in tokens])
 
 
-def get_part_of_speech(sentence, tokens=None):
-    tokens = word_tokenize(sentence) if tokens == None else tokens
-    pos_tags = nltk.pos_tag(tokens)
-    return " ".join([pos_tag[1] for pos_tag in pos_tags])
-
-
-def get_good_vectorizer():
-    return TfidfVectorizer(analyzer='char_wb', n_gram_range=(1, 4))
-
-
 from nltk.tokenize import TreebankWordTokenizer as twt
 
 
@@ -244,48 +224,13 @@ def get_sws_pct(text):
     return count_sws(text, tokens) / len(tokens)
 
 
-def get_paper_features(phrase, target, start_offset, end_offset):
-    global ERRORS, GOOD
-    context_tokens = get_context_tokens(phrase, start_offset, end_offset)
-    if context_tokens == None:
-        context_tokens = []
-    word = target
+def get_paper_features(token, document, index):
+    linguistical_features = [get_sws_pct(token), count_sws(token), get_dots_pct(token), get_dash_pct(token),
+                             get_len(token), get_digits_pct(token), get_punctuation_pct(token), get_phrase_len(document),
+                             get_spaces_pct(token), get_capital_letters_pct(token), get_slashes_pct(token), index,
+                             get_roman_numerals_pct(token), get_stopwords_pct(token)]
 
-    target_ = target
-
-    num_features = []
-
-    for target in [target_]:
-        word = target
-        num_features_ = [count_letters(target),
-                         count_consonants(target),
-                         count_vowels(target),
-                         get_vowel_pct(target),
-                         get_consonants_pct(target),
-                         get_double_consonants_pct(target),
-                         count_word_senses(target, tokens=word_tokenize(target)),
-                         mean([count_word_senses(context_tok) for context_tok in context_tokens]),
-                         get_base_word_pct(target, tokens=word_tokenize(word)),
-                         has_suffix(target, tokens=word_tokenize(word)),
-                         count_letters(target),
-                         get_base_word_pct_stem(target, tokens=word_tokenize(word)),
-                         has_both_affixes_stem(target, tokens=word_tokenize(word)),
-                         count_hypernyms(target, tokens=word_tokenize(word)),
-                         count_hyponyms(target, tokens=word_tokenize(word)),
-                         count_antonyms(target, tokens=word_tokenize(word)),
-                         count_definitions_average_tokens_length(target, tokens=word_tokenize(word)),
-                         count_definitions_average_characters_length(target, tokens=word_tokenize(word)),
-                         count_definitions_tokens_length(target, tokens=word_tokenize(word)),
-                         count_total_phonemes_per_pronounciations(target, tokens=word_tokenize(word)),
-                         get_word_frequency(target, tokens=word_tokenize(word)),
-                         get_average_syllable_count(target),
-                         check_word_compounding(target),
-                         get_base_word_pct(target),
-                         ]
-        for feature in num_features_:
-            num_features.append(feature)
-
-    return num_features
+    return linguistical_features
 
 
 if __name__ == '__main__':
