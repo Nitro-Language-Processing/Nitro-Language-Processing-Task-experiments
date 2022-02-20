@@ -47,20 +47,23 @@ def main():
 
     analyzer = "char"
     ngram_range = (1, 1)
-    n = 50000
+    n = 2500
     # cv = CountVectorizer(analyzer=analyzer, ngram_range=ngram_range)
     cv = TfidfVectorizer(analyzer=analyzer, ngram_range=ngram_range)
     X_train, X_test, y_train, y_test = [], [], [], []
     use_linguistical_features = True
     from src.lucian.linguistical_feat_extractor import get_paper_features
-
+    X_train_str = []
+    X_test_str = []
     for doc in tqdm((train + valid)[:n // 10]):
         tokens = doc["tokens"]
         ner_ids = doc["ner_ids"]
         document = doc["reconstructed_document"]
         for idx, (token, ner_id) in enumerate(zip(tokens, ner_ids)):
             if use_linguistical_features:
-                X_train.append(get_paper_features(token, document, idx))
+                feats, string_feats = get_paper_features(token, document, idx)
+                X_train.append(feats)
+                X_train_str.append(string_feats)
             else:
                 X_train.append(token)
             y_train.append(ner_id)
@@ -71,13 +74,17 @@ def main():
         document = doc["reconstructed_document"]
         for idx, (token, ner_id) in enumerate(zip(tokens, ner_ids)):
             if use_linguistical_features:
-                X_test.append(get_paper_features(token, document, idx))
+                feats, string_feats = get_paper_features(token, document, idx)
+                X_test.append(feats)
+                X_test_str.append(string_feats)
             else:
                 X_test.append(token)
             y_test.append(ner_id)
 
     X_train = np.array(X_train)
+    X_train_str = np.array(X_train_str)
     X_test = np.array(X_test)
+    X_test_str = np.array(X_test_str)
     y_train = np.array(y_train)
     y_test = np.array(y_test)
 
@@ -87,15 +94,25 @@ def main():
         X_train = cv.fit_transform(X_train).toarray()
         X_test = cv.transform(X_test).toarray()
         print("after vectorization")
+
+    if use_linguistical_features:
+        cv = CountVectorizer()
+        X_train_str = cv.fit_transform(X_train_str).toarray()
+        X_test_str = cv.transform(X_test_str).toarray()
+
     # model = XGBClassifier()
     model = SVC(class_weight="balanced")
 
     print("before fitting")
 
     X_train, y_train = X_train[:n], y_train[:n]
-    X_test, y_test = X_train[:n // 4], y_train[:n // 4]
 
-    print(len(set(y_train)), len(set(y_test)))
+    X_train_str, X_test_str = X_train_str[:n], X_test_str[:n // 4]
+
+    X_test, y_test = X_test[:n // 4], y_test[:n // 4]
+
+    X_train = np.hstack((X_train, X_train_str))
+    X_test = np.hstack((X_test, X_test_str))
 
     print(X_train.shape, X_test.shape)
     model.fit(X_train, y_train)

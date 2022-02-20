@@ -223,14 +223,80 @@ def get_sws_pct(text):
     tokens = word_tokenize(text)
     return count_sws(text, tokens) / len(tokens)
 
+encoder_dict = dict()
+encoder_cnt = 0
+
+def get_pos_tags(token, doc, nlp_doc, index):
+    global encoder_dict, encoder_cnt
+    context_indexes = list(range(max(index - 2, 0), min(index + 2, len(nlp_doc))))
+    context_tokens = [tok for i, tok in enumerate(word_tokenize(doc)) if i in context_indexes]
+    feats = []
+    for idx, nlp_token in enumerate(nlp_doc):
+        if idx in context_indexes:
+            feats.append(nlp_token.pos_)
+    if index == 1 or index == len(nlp_doc) - 2:
+        feats.insert(0, "-2_pos")
+        feats.append("-3_pos")
+    if index == 0 or index == len(nlp_doc) - 1:
+        feats.insert(0, "-2_pos")
+        feats.insert(0, "-1_pos")
+        feats.append("-3_pos")
+        feats.append("-4_pos")
+    return feats
+
+def get_dep_tags(token, doc, nlp_doc, index):
+    global encoder_dict, encoder_cnt
+    context_indexes = list(range(max(index - 2, 0), min(index + 2, len(nlp_doc))))
+    context_tokens = [tok for i, tok in enumerate(word_tokenize(doc)) if i in context_indexes]
+    feats = []
+    for idx, nlp_token in enumerate(nlp_doc):
+        if idx in context_indexes:
+            feats.append(nlp_token.dep_)
+    if index == 1 or index == len(nlp_doc) - 2:
+        feats.insert(0, "-2_dep")
+        feats.append("-3_dep")
+    if index == 0 or index == len(nlp_doc) - 1:
+        feats.insert(0, "-2_dep")
+        feats.insert(0, "-1_dep")
+        feats.append("-3_dep")
+        feats.append("-4_dep")
+    return feats
+
+def get_ner_tags(token, doc, nlp_doc, index):
+    global encoder_dict, encoder_cnt
+    context_indexes = list(range(max(index - 2, 0), min(index + 2, len(nlp_doc))))
+    context_tokens = [tok for i, tok in enumerate(word_tokenize(doc)) if i in context_indexes]
+
+    feats = []
+    for nlp_token in nlp_doc.ents:
+        if nlp_token.text in context_tokens:
+            feats.append(nlp_token.label_)
+    if index == 1 or index == len(nlp_doc) - 2:
+        feats.insert(0, "-2_ner")
+        feats.append("-3_ner")
+    if index == 0 or index == len(nlp_doc) - 1:
+        feats.insert(0, "-2_ner")
+        feats.insert(0, "-1_ner")
+        feats.append("-3_ner")
+        feats.append("-4_ner")
+
+    return feats
 
 def get_paper_features(token, document, index):
+    nlp_doc = nlp(document)
+    doc = document
+    # import pdb
+    # pdb.set_trace()
     linguistical_features = [get_sws_pct(token), count_sws(token), get_dots_pct(token), get_dash_pct(token),
                              get_len(token), get_digits_pct(token), get_punctuation_pct(token), get_phrase_len(document),
                              get_spaces_pct(token), get_capital_letters_pct(token), get_slashes_pct(token), index,
                              get_roman_numerals_pct(token), get_stopwords_pct(token)]
 
-    return linguistical_features
+    string_feats = get_pos_tags(token, doc, nlp_doc, index)+ \
+                   get_dep_tags(token, doc, nlp_doc, index)+ \
+                   get_ner_tags(token, doc, nlp_doc, index)
+
+    return np.array(linguistical_features), " ".join(string_feats)
 
 
 if __name__ == '__main__':
