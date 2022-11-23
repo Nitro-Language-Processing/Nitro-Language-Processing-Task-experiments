@@ -9,3 +9,10 @@
 2022-edition/small_data/
 2022-edition/small_data/script.py
 2022-edition/training_LUCI_26.json
+.idea/
+TorchCRF/
+checkpoints/
+data/
+product_ner/
+pytorch-crf/
+training_LUCI_26.json
