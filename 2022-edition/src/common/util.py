@@ -24,8 +24,9 @@ def get_data(filepath, change_ner_tags=False, change_ner_ids=False, first_n=None
         for (ner_tag, ner_id) in zip(ner_tags, ner_ids):
             if ner_tag != "O":
                 ner_tag = ner_tag[ner_tag.find("-") + 1:]
-            if ner_tag not in tag_to_id.keys():
-                tag_to_id[ner_tag] = ner_id
+            if not change_ner_ids:
+                if ner_tag not in tag_to_id.keys():
+                    tag_to_id[ner_tag] = ner_id
 
         tokens = datapoint["tokens"]
         spaces_after = datapoint["space_after"]
@@ -51,13 +52,28 @@ def get_data(filepath, change_ner_tags=False, change_ner_ids=False, first_n=None
 
         if change_ner_ids:
             new_ner_ids = []
+
             for ner_id in ner_ids:
-                if ner_id % 2 == 1:
-                    ner_id -= 1
+                if ner_id == 0:
+                    pass
+                elif ner_id % 2 == 0:
+                    ner_id = ner_id // 2
+                elif ner_id % 2 == 1:
+                    ner_id = ner_id // 2 + 1
                 new_ner_ids.append(ner_id)
-            new_ner_ids = [ner_id // 2 for ner_id in new_ner_ids]
             data[i]["ner_ids"] = new_ner_ids
 
+            # new_ner_ids = ner_ids
+
+            # {'O': 0, 'PERSON': 1, 'QUANTITY': 23, 'NUMERIC': 25, 'NAT_REL_POL': 9, 'GPE': 5, 'DATETIME': 17,
+            # 'ORG': 3, 'PERIOD': 19, 'EVENT': 11, 'FACILITY': 29, 'ORDINAL': 27, 'LOC': 7, 'MONEY': 21, 'WORK_OF_ART': 15, 'LANGUAGE': 13}
+
+            new_ner_tags = data[i]["ner_tags"]
+
+            # print(new_ner_tags, new_ner_ids)
+            for (new_ner_tag, new_ner_id) in zip(new_ner_tags, new_ner_ids):
+                if new_ner_tag not in tag_to_id.keys():
+                    tag_to_id[new_ner_tag] = new_ner_id
 
         data[i]["reconstructed_document"] = document
         data[i]["start_char"] = start_chars
@@ -79,11 +95,41 @@ def get_all_data(change_ner_tags=False, change_ner_ids=False, first_n=None):
     return data, tag_to_id
 
 def main():
-    data, _ = get_all_data()
+    data, tag_to_id = get_all_data(change_ner_tags=True, change_ner_ids=True)
+    print(tag_to_id)
+    possible_ner_tags = set()
+    possible_ner_ids = set()
 
-    print(data['train'][0].keys())
+    for key in data.keys():
+        for i in range(len(data[key])):
+            del data[key][i]['start_char']
+            del data[key][i]['end_char']
+            del data[key][i]['reconstructed_document']
+            del data[key][i]['id']
+            for ner_id in data[key][i]['ner_ids']:
+                possible_ner_ids.add(ner_id)
+            for ner_tag in data[key][i]['ner_tags']:
+                possible_ner_tags.add(ner_tag)
+
+    #    print(data['train'][0])
     print(data['valid'][0].keys())
     print(data['test'][0].keys())
+    print(len(data["train"]) + len(data["valid"])  + len(data["test"]))
+    import random
+    final_data = data["train"] + data["valid"] + data["test"]
+
+    random.shuffle(final_data)
+
+    print(len(final_data))
+    # print(final_data[-1])
+    with open('training_LUCI_26.json', 'w') as fout:
+        json.dump(final_data, fout)
+    print(final_data[0])
+    print(final_data[-1])
+    print(final_data[-1].keys())
+    print(len(possible_ner_ids), possible_ner_ids)
+    print(len(possible_ner_tags), possible_ner_tags)
+
 
 if __name__=="__main__":
     main()

@@ -37,6 +37,8 @@ def string_kernel_training(X_train, y_train, X_val, y_val, kernel_option="string
 
 def main():
     data, tag_to_id = get_all_data(change_ner_tags=True, change_ner_ids=True)
+    import pdb
+    pdb.set_trace()
     train = data["train"]
     valid = data["valid"]
     test = data["test"]

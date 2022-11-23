@@ -1,0 +1,795 @@
+******************************
+Ner tag type: PERSON:
+     -> el 
+     -> președintele 
+     -> cei 
+     -> persoane 
+     -> Președintele 
+     -> Dumnezeu 
+     -> oameni 
+     -> El 
+     -> copii 
+     -> dl 
+     -> ei 
+     -> membru 
+     -> președinte 
+     -> noi 
+     -> domnul 
+     -> Nicolae 
+     -> președintelui 
+     -> George 
+     -> Ioan 
+     -> fiul 
+     -> elevi 
+     -> persoanelor 
+     -> persoanele 
+     -> aceștia 
+     -> premierul 
+     -> ministrul 
+     -> ea 
+     -> spectatori 
+     -> locuitori 
+     -> celor 
+     -> Gheorghe 
+     -> Mihai 
+     -> Alexandru 
+     -> director 
+     -> membri 
+     -> membrii 
+     -> profesor 
+     -> Ion 
+     -> ministru 
+     -> „ 
+     -> tineri 
+     -> Constantin 
+     -> om 
+     -> copiilor 
+     -> copiii 
+     -> oamenii 
+     -> tatăl 
+     -> Ștefan 
+     -> mama 
+     -> acesta 
+
+******************************
+Ner tag type: QUANTITY:
+     -> 50% 
+     -> 10% 
+     -> 25% 
+     -> 10 
+     -> 20 
+     -> 80% 
+     -> 100% 
+     -> 100 
+     -> 20% 
+     -> 5% 
+     -> 15 
+     -> 50 
+     -> 5 
+     -> 2 
+     -> 200 
+     -> 70% 
+     -> 90% 
+     -> 30 
+     -> 30% 
+     -> 1 
+     -> 8 
+     -> 40% 
+     -> 3% 
+     -> 6 
+     -> 4 
+     -> 500 
+     -> 60% 
+     -> 40 
+     -> 15% 
+     -> 8% 
+     -> 90 
+     -> 0.7 
+     -> 0.7 l 
+     -> 75% 
+     -> 600 
+     -> 9% 
+     -> 7 
+     -> 16% 
+     -> un 
+     -> 3 
+     -> 2% 
+     -> 80 
+     -> 25 
+     -> 11% 
+     -> două 
+     -> 1% 
+     -> 24 
+     -> 28 
+     -> km 
+     -> 7% 
+
+******************************
+Ner tag type: NUMERIC:
+     -> două 
+     -> trei 
+     -> 1 
+     -> 2 
+     -> 3 
+     -> doi 
+     -> 4 
+     -> patru 
+     -> 5 
+     -> 6 
+     -> I 
+     -> 10 
+     -> 0 
+     -> 8 
+     -> cinci 
+     -> 7 
+     -> șase 
+     -> 14 
+     -> 12 
+     -> 20 
+     -> 15 
+     -> 100 
+     -> 9 
+     -> 11 
+     -> 13 
+     -> 16 
+     -> 18 
+     -> șapte 
+     -> 40 
+     -> II 
+     -> 50 
+     -> 25 
+     -> 30 
+     -> opt 
+     -> 19 
+     -> 200 
+     -> o 
+     -> 17 
+     -> 300 
+     -> 28 
+     -> zece 
+     -> 24 
+     -> 21 
+     -> 27 
+     -> 22 
+     -> 26 
+     -> III 
+     -> 60 
+     -> sute 
+     -> 23 
+
+******************************
+Ner tag type: NAT_REL_POL:
+     -> europene 
+     -> românești 
+     -> români 
+     -> românesc 
+     -> român 
+     -> european 
+     -> române 
+     -> germane 
+     -> românească 
+     -> germană 
+     -> americane 
+     -> europeană 
+     -> american 
+     -> română 
+     -> românilor 
+     -> german 
+     -> românii 
+     -> sovietice 
+     -> britanice 
+     -> americană 
+     -> franceză 
+     -> ruse 
+     -> româno 
+     -> germani 
+     -> britanic 
+     -> francez 
+     -> rusă 
+     -> franceze 
+     -> italiană 
+     -> ortodoxă 
+     -> italiene 
+     -> evrei 
+     -> comunist 
+     -> ortodoxe 
+     -> evreilor 
+     -> italian 
+     -> maghiare 
+     -> spaniolă 
+     -> evreiești 
+     -> ucrainene 
+     -> israeliană 
+     -> ruși 
+     -> rus 
+     -> Președintele american 
+     -> creștin 
+     -> turci 
+     -> Românii 
+     -> rusești 
+     -> roman 
+     -> romane 
+
+******************************
+Ner tag type: GPE:
+     -> România 
+     -> Timișoara 
+     -> București 
+     -> României 
+     -> Germania 
+     -> Timiș 
+     -> Italia 
+     -> Franța 
+     -> Statele 
+     -> Statele Unite 
+     -> Ungaria 
+     -> SUA 
+     -> Arad 
+     -> Rusia 
+     -> Paris 
+     -> Iași 
+     -> Irak 
+     -> Republica 
+     -> Marea 
+     -> Marea Britanie 
+     -> Cluj 
+     -> S.U.A. 
+     -> Republicii 
+     -> Constanța 
+     -> Bulgaria 
+     -> Ucraina 
+     -> Spania 
+     -> Moscova 
+     -> Londra 
+     -> Polonia 
+     -> Suceava 
+     -> Viena 
+     -> Sibiu 
+     -> Brașov 
+     -> Grecia 
+     -> Bruxelles 
+     -> Austria 
+     -> Turcia 
+     -> Lugoj 
+     -> Berlin 
+     -> Bacău 
+     -> Serbia 
+     -> Budapesta 
+     -> New 
+     -> Japonia 
+     -> Caraș-Severin 
+     -> China 
+     -> Roma 
+     -> New York 
+     -> Moldova 
+
+******************************
+Ner tag type: DATETIME:
+     -> anul 
+     -> data 
+     -> data de 
+     -> sfârșitul 
+     -> luna 
+     -> ora 
+     -> 1 
+     -> începutul 
+     -> 15 
+     -> astăzi 
+     -> o 
+     -> anii 
+     -> 2005 
+     -> 3 
+     -> 20 
+     -> acest 
+     -> 2004 
+     -> 30 
+     -> 10 
+     -> acest an 
+     -> trei 
+     -> sâmbătă 
+     -> 12 
+     -> 24 
+     -> ieri 
+     -> 14 
+     -> 5 
+     -> vineri 
+     -> 2006 
+     -> 6 
+     -> 18 
+     -> un 
+     -> miercuri 
+     -> 25 
+     -> marți 
+     -> 2 
+     -> 2002 
+     -> luni 
+     -> joi 
+     -> anului 
+     -> secolul 
+     -> două 
+     -> 2003 
+     -> 16 
+     -> un an 
+     -> cursul 
+     -> duminică 
+     -> 9 
+     -> 4 
+     -> 21 
+
+******************************
+Ner tag type: ORG:
+     -> " 
+     -> Ministerul 
+     -> „ 
+     -> Universitatea 
+     -> Consiliului 
+     -> Guvernul 
+     -> Centrul 
+     -> U.E. 
+     -> Universității 
+     -> Consiliul 
+     -> Uniunea 
+     -> Ministerului 
+     -> Primăria 
+     -> Uniunii 
+     -> PSD 
+     -> Parlamentul 
+     -> Academiei 
+     -> Uniunea Europeană 
+     -> UE 
+     -> Școala 
+     -> F.C. 
+     -> Institutul 
+     -> Guvernului 
+     -> Asociația 
+     -> Dinamo 
+     -> NATO 
+     -> Parlamentului 
+     -> Editura 
+     -> Primăriei 
+     -> Liceul 
+     -> Uniunii Europene 
+     -> Colegiul 
+     -> Partidului 
+     -> PNL 
+     -> Comisia 
+     -> Ministerul Educației 
+     -> O.N.U. 
+     -> S.C. 
+     -> Camerei 
+     -> Agenția 
+     -> C.J.T. 
+     -> Universitatea din 
+     -> Direcției 
+     -> Ministerul Educației și 
+     -> Ministerul Educației și Cercetării 
+     -> Bisericii 
+     -> Institutului 
+     -> Steaua 
+     -> Centrul Național 
+     -> Curtea 
+
+******************************
+Ner tag type: PERIOD:
+     -> între 
+     -> de 
+     -> Între 
+     -> anii 
+     -> între orele 
+     -> din 
+     -> de la 
+     -> între anii 
+     -> de luni 
+     -> de luni până 
+     -> de luni până vineri 
+     -> 1 
+     -> anul 
+     -> Între anii 
+     -> 2007-2013 
+     -> ianuarie 
+     -> 2014 
+     -> 2014 - 
+     -> orele 
+     -> zilnic între 
+     -> secolele 
+     -> 28 
+     -> ianuarie - 
+     -> 2004-2005 
+     -> 23 
+     -> Din 
+     -> 27 
+     -> 4 
+     -> 2006-2007 
+     -> 30 
+     -> 2014-2020 
+     -> de luni până vineri între 
+     -> de luni până vineri între orele 
+     -> 2006-2008 
+     -> 2003-2004 
+     -> zilnic între orele 
+     -> 1-10 
+     -> secolele al 
+     -> între 10 
+     -> 9-11 
+     -> 2004-2006 
+     -> între 6 
+     -> anul 2006-2007 
+     -> 2014-2015 
+     -> sâmbăta între 
+     -> 17-19 
+     -> 2014 - 2020 
+     -> 2005/2006 
+     -> 24 
+     -> martie 
+
+******************************
+Ner tag type: EVENT:
+     -> Campionatul 
+     -> Cupa 
+     -> Cupei 
+     -> Campionatului 
+     -> al 
+     -> Liga 
+     -> Bătălia 
+     -> al doilea 
+     -> al doilea război 
+     -> al doilea război mondial 
+     -> Bătălia de 
+     -> Bătălia de la 
+     -> Campionatul Mondial 
+     -> " 
+     -> Festivalul 
+     -> Jocurile 
+     -> Campionatului Mondial 
+     -> Divizia 
+     -> Campionatul Mondial de 
+     -> Campionatul European 
+     -> Campionatului European 
+     -> Jocurile Olimpice 
+     -> Revoluției 
+     -> Campionatul European de 
+     -> Jocurile Olimpice de 
+     -> Războiul 
+     -> Diviziei 
+     -> al Doilea 
+     -> al Doilea Război 
+     -> Festivalului 
+     -> Campionatele 
+     -> Ligii 
+     -> Cupei României 
+     -> „ 
+     -> Cupa Mondială 
+     -> Premiul 
+     -> Campionatului Mondial de 
+     -> Zilei 
+     -> Grammy 
+     -> bătălia 
+     -> războiul 
+     -> Diviziei A 
+     -> Primului 
+     -> Primului Război 
+     -> Primul 
+     -> Primul Război 
+     -> Jocurilor 
+     -> bătălia de 
+     -> bătălia de la 
+     -> Revelion 
+
+******************************
+Ner tag type: FACILITY:
+     -> Muzeul 
+     -> Sala 
+     -> Palatul 
+     -> Biserica 
+     -> Mănăstirea 
+     -> Teatrul 
+     -> Casa 
+     -> biserica 
+     -> „ 
+     -> Muzeului 
+     -> Catedrala 
+     -> Castelul 
+     -> Cetatea 
+     -> Teatrului 
+     -> " 
+     -> Muzeul Național 
+     -> Iulius 
+     -> Iulius Mall 
+     -> Bisericii 
+     -> Palatului 
+     -> Centrul 
+     -> Aeroportul 
+     -> cetatea 
+     -> Palatul Cotroceni 
+     -> Hotel 
+     -> Palatul Parlamentului 
+     -> Casa Albă 
+     -> Mănăstirii 
+     -> Stadionul 
+     -> Biserica „ 
+     -> Opera 
+     -> biserica „ 
+     -> Casa de 
+     -> Casa de Cultură 
+     -> Complexul 
+     -> Casei 
+     -> Muzeul Banatului 
+     -> Biblioteca 
+     -> Gara 
+     -> complexul 
+     -> Teatrul Național 
+     -> cabana 
+     -> Bibliotecii 
+     -> Cetatea Neamțului 
+     -> Biserica de 
+     -> Biserica de lemn 
+     -> biserica din 
+     -> palatul 
+     -> mănăstirii 
+     -> biserică 
+
+******************************
+Ner tag type: ORDINAL:
+     -> a 
+     -> prima 
+     -> primul 
+     -> al 
+     -> a doua 
+     -> al doilea 
+     -> ultimul 
+     -> al treilea 
+     -> primele 
+     -> ultima 
+     -> a treia 
+     -> Primul 
+     -> Prima 
+     -> a II 
+     -> a II -a 
+     -> întâi 
+     -> a III 
+     -> a III -a 
+     -> A 
+     -> primii 
+     -> primului 
+     -> a V- 
+     -> a V- a 
+     -> primei 
+     -> ultimele 
+     -> a IV 
+     -> a IV -a 
+     -> primă 
+     -> ultimii 
+     -> a 4- 
+     -> a 4- a 
+     -> al cincilea 
+     -> a 5 
+     -> a 5 -a 
+     -> a 10 
+     -> a 10 -a 
+     -> a patra 
+     -> a cincea 
+     -> A doua 
+     -> a X- 
+     -> a X- a 
+     -> a 2 
+     -> a 2 -a 
+     -> prim 
+     -> a IX 
+     -> a IX -a 
+     -> al patrulea 
+     -> primelor 
+     -> a VIII 
+     -> a VIII -a 
+
+******************************
+Ner tag type: LOC:
+     -> Europa 
+     -> str 
+     -> str . 
+     -> Piața 
+     -> strada 
+     -> Valea 
+     -> Transilvania 
+     -> Asia 
+     -> Bd. 
+     -> America 
+     -> Europei 
+     -> Marea 
+     -> Calea 
+     -> râul 
+     -> Moldova 
+     -> Parcul 
+     -> Orientul 
+     -> Europa de 
+     -> Basarabia 
+     -> Africa 
+     -> DJ 
+     -> zona 
+     -> Europa Centrală 
+     -> insula 
+     -> str. 
+     -> Orientul Mijlociu 
+     -> Dunării 
+     -> Bucovina 
+     -> Basarabiei 
+     -> Mării 
+     -> Bega 
+     -> cartierul 
+     -> Piața Victoriei 
+     -> Moldovei 
+     -> Bd 
+     -> Bd . 
+     -> Dobrogea 
+     -> Marea Neagră 
+     -> Cisiordania 
+     -> Fâșia 
+     -> Fâșia Gaza 
+     -> Hollywood 
+     -> Europa de Est 
+     -> DN 
+     -> America de 
+     -> Banat 
+     -> râului 
+     -> „ 
+     -> Piața Unirii 
+     -> Bucovinei 
+
+******************************
+Ner tag type: MONEY:
+     -> 1 
+     -> 100 
+     -> 10 
+     -> 5 
+     -> 500 
+     -> un 
+     -> 50 
+     -> 1000 
+     -> 2 
+     -> 200 
+     -> 10000 
+     -> 20 
+     -> 30 
+     -> 100 de 
+     -> 15 
+     -> 25000 
+     -> 5 milioane 
+     -> 5 milioane de 
+     -> 5000 
+     -> 8 
+     -> 40 
+     -> 25 
+     -> 50 de 
+     -> 30000 
+     -> 150 
+     -> 100000 
+     -> 250 
+     -> 6 
+     -> 200 de 
+     -> 15000 
+     -> 35 
+     -> 3 
+     -> două 
+     -> 100000 de 
+     -> 300 
+     -> 10 milioane 
+     -> un milion 
+     -> un milion de 
+     -> 400 
+     -> 3000 
+     -> 25000 de 
+     -> 500 de 
+     -> 150000 
+     -> 4 
+     -> 10 milioane de 
+     -> 500000 
+     -> 500000 de 
+     -> 1500 
+     -> 700000 
+     -> 80000 
+
+******************************
+Ner tag type: WORK_OF_ART:
+     -> „ 
+     -> " 
+     -> “ 
+     -> piesa 
+     -> The 
+     -> filmul 
+     -> piesa „ 
+     -> filmului 
+     -> romanul 
+     -> emisiunii 
+     -> La 
+     -> volumul 
+     -> albumul 
+     -> cărții 
+     -> piesei 
+     -> single 
+     -> „ The 
+     -> , 
+     -> , , 
+     -> serialului 
+     -> spectacolul 
+     -> romanului 
+     -> emisiunea 
+     -> O 
+     -> „I 
+     -> cartea 
+     -> serialul 
+     -> Fever 
+     -> piesei „ 
+     -> „ One 
+     -> cărții „ 
+     -> melodia 
+     -> melodia „ 
+     -> emisiunii " 
+     -> albumului 
+     -> " The 
+     -> " La 
+     -> emisiunii „ 
+     -> piesa " 
+     -> Filmul 
+     -> ” 
+     -> Biblia 
+     -> revistei 
+     -> cântecul 
+     -> Love 
+     -> Enciclopedia 
+     -> Albumul 
+     -> Biblie 
+     -> „I Don't 
+     -> „I Don't Need 
+
+******************************
+Ner tag type: LANGUAGE:
+     -> limba 
+     -> limba română 
+     -> engleză 
+     -> română 
+     -> germană 
+     -> limbii 
+     -> limba engleză 
+     -> franceză 
+     -> rusă 
+     -> limba germană 
+     -> ucraineană 
+     -> maghiară 
+     -> limbă 
+     -> italiană 
+     -> limba franceză 
+     -> limba latină 
+     -> limba maghiară 
+     -> limba rusă 
+     -> limbii române 
+     -> greacă 
+     -> engleza 
+     -> limbile 
+     -> spaniolă 
+     -> slovenă 
+     -> franceza 
+     -> Limba 
+     -> cehă 
+     -> latină 
+     -> limba greacă 
+     -> limbă germană 
+     -> germana 
+     -> ebraică 
+     -> limbii rromani 
+     -> limbii franceze 
+     -> portugheză 
+     -> suedeză 
+     -> poloneză 
+     -> slovacă 
+     -> limba ebraică 
+     -> limba arabă 
+     -> japoneză 
+     -> limba idiș 
+     -> chineză 
+     -> italiana 
+     -> românește 
+     -> ungurește 
+     -> greaca 
+     -> limba romani 
+     -> idiș 
+     -> Engleză 
+

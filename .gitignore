@@ -6,3 +6,6 @@ checkpoints
 product_ner
 TorchCRF
 pytorch-crf
+small_data/
+small_data/script.py
+training_LUCI_26.json
